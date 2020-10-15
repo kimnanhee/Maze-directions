@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define miro_size 6
+#define miro_size 11
 
 int stack[2][100] = { 0, };
 int stack_point = 0;
@@ -18,7 +18,7 @@ void pop()
 }
 int top()
 {
-	int top_value = stack[0][stack_point - 1] * 10 + stack[1][stack_point - 1];
+	int top_value = stack[0][stack_point - 1] * 100 + stack[1][stack_point - 1];
 	printf("return value - %d\n", top_value);
 	return top_value;
 }
@@ -43,33 +43,37 @@ int main()
 			}
 		}
 	}
-	// 탐색 시작
+	// 시작위치로 커서 옮기기
 	cur_r = s_Row; 
 	cur_c = s_Col;
 	push(cur_r, cur_c); // 시작 위치를 stack에 삽입
+
 	int cnt = 0;
 	while (1) 
 	{
 		printf("\n\n%d     (%d, %d)\n", cnt++, cur_r, cur_c);
 		miro[cur_r][cur_c] = 8;
 
-		// 오른쪽이 뚫려있을 경우
-		if (miro[cur_r][cur_c + 1] == 0 && top() != (cur_r * 10 + (cur_c + 1))) {
+		if (miro[cur_r][cur_c + 1] == 0 && top() != (cur_r * 100 + (cur_c + 1))) // 오른쪽이 뚫려있을 경우
+		{
 			push(cur_r, cur_c);
 			cur_c = cur_c + 1;
 		}
-		// 왼쪽이 뚫려있을 경우
-		else if (miro[cur_r][cur_c - 1] == 0 && top() != (cur_r * 10 + (cur_c - 1))) {
+		
+		else if (miro[cur_r][cur_c - 1] == 0 && top() != (cur_r * 100 + (cur_c - 1))) // 왼쪽이 뚫려있을 경우
+		{
 			push(cur_r, cur_c);
 			cur_c = cur_c - 1;
 		}
-		// 아래쪽이 뚫려있을 경우
-		else if (miro[cur_r + 1][cur_c] == 0 && top() != ((cur_r + 1)*10 + cur_c)) {
+		
+		else if (miro[cur_r + 1][cur_c] == 0 && top() != ((cur_r + 1)*100 + cur_c)) // 아래쪽이 뚫려있을 경우
+		{
 			push(cur_r, cur_c);
 			cur_r = cur_r + 1;
 		}
-		// 위쪽이 뚫려있을 경우
-		else if (miro[cur_r - 1][cur_c] == 0 && top() != ((cur_r - 1) * 10 + cur_c)) {
+		
+		else if (miro[cur_r - 1][cur_c] == 0 && top() != ((cur_r - 1) * 100 + cur_c)) // 위쪽이 뚫려있을 경우
+		{
 			push(cur_r, cur_c);
 			cur_r = cur_r - 1;
 		}
@@ -80,14 +84,14 @@ int main()
 			printf("finish\n");
 			break; 
 		}
-		else {
-			cur_r = top() / 10;
-			cur_c = top() % 10;
+		else 
+		{
+			cur_r = top() / 100; // 길이 없으면 전의 위치로 back
+			cur_c = top() % 100;
 			pop();
 		}
 
-		if (stack_point == 0)
-		{
+		if (stack_point == 0) { // 스택에 든 값이 없을 때
 			printf("0\n");
 			break;
 		}
