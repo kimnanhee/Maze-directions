@@ -1,3 +1,9 @@
+/*
+0 : 길 (도착시 8로 변경) 
+1 : 바닥 
+2 : 시작 위치
+3 : 도착 위치 
+*/
 #include <stdio.h>
 #define miro_size 11
 
